@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Search</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; background-color: #f4f4f4; }
+        .container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
+        input, button { padding: 10px; margin: 10px; width: 80%; }
+        .movie-details { text-align: left; margin-top: 20px; display: none; }  /* Initially Hidden */
+        img { border-radius: 8px; margin-top: 10px; }
+        iframe { margin-top: 10px; }
+        .reviews { margin-top: 20px; text-align: left; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Movie Search</h2>
+        <form method="POST">
+            <input type="text" name="movie_name" placeholder="Enter movie name" required>
+            <button type="submit">Search</button>
+        </form>
+
+        {% if movie_data %}
+            <button onclick="toggleDetails()">Show Details</button>  <!-- Toggle Button -->
+            <div class="movie-details" id="movieDetails">
+                <h3>{{ movie_data.Title }} ({{ movie_data.Year }})</h3>
+                <p><strong>Genre:</strong> {{ movie_data.Genre }}</p>
+                <p><strong>Director:</strong> {{ movie_data.Director }}</p>
+                <p><strong>Actors:</strong> {{ movie_data.Actors }}</p>
+                <p><strong>Runtime:</strong> {{ movie_data.Runtime }}</p>
+                <p><strong>Country:</strong> {{ movie_data.Country }}</p>
+                <p><strong>Awards:</strong> {{ movie_data.Awards }}</p>
+                <p><strong>Box Office:</strong> {{ movie_data.BoxOffice }}</p>
+                <p><strong>IMDB Rating:</strong> {{ movie_data.imdbRating }}</p>
+                <p><strong>Plot:</strong> {{ movie_data.Plot }}</p>
+                <img src="{{ movie_data.Poster }}" alt="Movie Poster" width="200">
+                
+                <!-- YouTube Trailer Embed -->
+                {% if movie_data.Title %}
+                    <h3>Watch Trailer</h3>
+                    <iframe width="100%" height="315" src="https://www.youtube.com/embed?search={{ movie_data.Title }} official trailer" frameborder="0" allowfullscreen></iframe>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- JavaScript for Show/Hide Details -->
+    <script>
+        function toggleDetails() {
+            var details = document.getElementById("movieDetails");
+            if (details.style.display === "none") {
+                details.style.display = "block";  // Show details
+            } else {
+                details.style.display = "none";   // Hide details
+            }
+        }
+    </script>
+</body>
+</html>
